@@ -51,9 +51,14 @@ router.post("/add", (req, res) => {
     });
 });
 
-// Pages
-router.get('/', (req, res) => {
-    res.render('index', { title: 'Home' });
+// Home route - get all users
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find({}, "name"); // 👈 only fetch name field
+    res.render("index", { users }); // pass users to home.ejs
+  } catch (err) {
+    res.status(500).send("Error fetching users: " + err.message);
+  }
 });
 
 router.get('/add', (req, res) => {
