@@ -4,16 +4,14 @@ const User = require('../models/users');
 const multer = require('multer');
 
 // Image upload configuration
-const path = require("path");
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "../uploads")); // absolute path
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
     }
 });
-
 // initialize upload variable
 var upload = multer({
     storage: storage,
@@ -28,8 +26,8 @@ router.post("/add", upload, (req, res) => {
         image: req.file.filename,
     });
     user.save((err) => {
-        if (err) {
-            res.json({ message: err.message, type: 'danger' });
+        if(err){
+            res.json({message: err.message, type: 'danger'});
         } else {
             req.session.message = {
                 type: 'success',
@@ -39,6 +37,7 @@ router.post("/add", upload, (req, res) => {
         }
     });
 });
+
 
 /* router.get("/about", (req, res) => {
     res.send("About Page");
