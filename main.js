@@ -6,6 +6,9 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Expose Static files
+app.use('/uploads', express.static('uploads'));
+
 //Database connection
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 const db = mongoose.connection;

@@ -54,12 +54,18 @@ router.post("/add", (req, res) => {
 // Home route - get all users
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find({}, "name"); // 👈 only fetch name field
-    res.render("index", { users }); // pass users to home.ejs
+    const users = await User.find({}, "name email phone image");
+    res.render("index", {  // 
+      title: "Home Page",
+      users: users,
+      message: req.session.message || null
+    });
+    req.session.message = null;
   } catch (err) {
     res.status(500).send("Error fetching users: " + err.message);
   }
 });
+
 
 router.get('/add', (req, res) => {
     res.render('add_users', { title: 'Add Users' });
