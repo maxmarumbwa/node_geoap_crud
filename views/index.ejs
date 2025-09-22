@@ -1,75 +1,34 @@
-<!-- //Orig code -->
-<!-- <%- include('layout/header') %>
-
-    <div class="container">
-        <div class="row my-4">
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-striped text-center">
-                        <thead>
-                            <tr class="table-dark">
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><img src="" alt="" /></td>
-                                <td>Sahil Kumar</td>
-                                <td>sahil.kumar@gmail.com</td>
-                                <td>12129859632</td>
-                                <td>
-                                    <a href="" class="text-success">
-                                        <i class="fas fa-edit fa-lg mx-1"></i>
-                                    </a>
-                                    <a href="" class="text-danger">
-                                        <i class="fas fa-trash fa-lg mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <%- include('layout/footer') %>
-
-
- -->
-
-
 <%- include('layout/header') %>
     <div class="container">
         <h1>User List</h1>
-        <table border="1">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Image</th>
-            </tr>
-            <% users.forEach(user=> { %>
+        <table id="usersTable" class="display" style="width:100%">
+            <thead>
                 <tr>
-                    <td>
-                        <%= user.name %>
-                    </td>
-                    <td>
-                        <%= user.email %>
-                    </td>
-                    <td>
-                        <%= user.phone %>
-                    </td>
-                    <td>
-                        <img src="/uploads/<%= user.image %>" width="100">
-                    </td>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Image</th>
                 </tr>
-                <% }) %>
+            </thead>
+            <tbody>
+                <% users.forEach(user=> { %>
+                    <tr>
+                        <td>
+                            <%= user.name %>
+                        </td>
+                        <td>
+                            <%= user.email %>
+                        </td>
+                        <td>
+                            <%= user.phone %>
+                        </td>
+                        <td>
+                            <img src="/uploads/<%= user.image %>" width="100" alt="User Image">
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
         </table>
     </div>
+
     <%- include('layout/footer') %>
