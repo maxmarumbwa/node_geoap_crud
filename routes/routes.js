@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/users');
 const multer = require('multer');
 const path = require('path');
+const fs = require("fs");
 
 // Image upload configuration
 const storage = multer.diskStorage({
@@ -126,11 +127,26 @@ router.post("/edit/:id", (req, res) => {
   });
 });
 
-// Delete user route
+// Delete user (DB + image file)
 router.get("/delete/:id", async (req, res) => {
   try {
-    const id = req.params.id;
-    await User.findByIdAndDelete(id);
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      req.session.message = { type: "danger", message: "User not found!" };
+      return res.redirect("/");
+    }
+
+    // Delete image file if exists
+    if (user.image) {
+      const imagePath = path.join(__dirname, "../uploads", user.image);
+      fs.unlink(imagePath, (err) => {
+        if (err) console.error("Failed to delete image:", err);
+      });
+    }
+
+    // Delete user from DB
+    await User.findByIdAndDelete(req.params.id);
 
     req.session.message = {
       type: "success",
@@ -143,6 +159,4 @@ router.get("/delete/:id", async (req, res) => {
     res.status(500).send("Error deleting user: " + err.message);
   }
 });
- 
-
 module.exports = router;
