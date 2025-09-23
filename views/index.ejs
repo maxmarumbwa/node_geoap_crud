@@ -38,10 +38,10 @@
                                     <td>
                                         <a href="/edit/<%= user.id %>" class="text-success">
                                             <i class="fas fa-edit fa-lg mx-1"></i>
-                                        </a>
-                                        <a href="/delete/<%= user.id %>" class="text-danger">
-                                            <i class="fas fa-trash fa-lg mx-1"></i>
-                                        </a>
+                                            <a href="/delete/<%= user._id %>" class="text-danger"
+                                                onclick="return confirm('Are you sure you want to delete this user?');">
+                                                <i class="fas fa-trash fa-lg mx-1"></i>
+                                            </a>
                                     </td>
                                 </tr>
                                 <% }) %>

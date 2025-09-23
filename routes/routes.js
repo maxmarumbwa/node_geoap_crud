@@ -126,5 +126,23 @@ router.post("/edit/:id", (req, res) => {
   });
 });
 
+// Delete user route
+router.get("/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await User.findByIdAndDelete(id);
+
+    req.session.message = {
+      type: "success",
+      message: "User deleted successfully!"
+    };
+
+    res.redirect("/");
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).send("Error deleting user: " + err.message);
+  }
+});
+ 
 
 module.exports = router;
