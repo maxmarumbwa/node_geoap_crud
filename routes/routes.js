@@ -79,4 +79,52 @@ router.get('/contact', (req, res) => {
     res.render('contact', { title: 'Contact' });
 });
 
+// GET edit user form
+router.get("/edit/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.render("edit_user", { title: "Edit User", user: user });
+  } catch (err) {
+    res.status(500).send("Error fetching user: " + err.message);
+  }
+});
+
+// POST update user
+router.post("/edit/:id", (req, res) => {
+  upload(req, res, async function (err) {
+    if (err) {
+      console.error("Multer error:", err);
+      return res.status(400).json({ message: "File upload failed", type: "danger" });
+    }
+
+    try {
+      const updatedData = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+      };
+
+      if (req.file) {
+        updatedData.image = req.file.filename; // update image if new one uploaded
+      }
+
+      await User.findByIdAndUpdate(req.params.id, updatedData);
+
+      req.session.message = {
+        type: "success",
+        message: "User updated successfully!"
+      };
+
+      res.redirect("/");
+    } catch (err) {
+      console.error("Database error:", err);
+      res.status(500).json({ message: err.message, type: "danger" });
+    }
+  });
+});
+
+
 module.exports = router;

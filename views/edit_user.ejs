@@ -1,0 +1,41 @@
+<%- include('layout/header') %>
+
+    <div class="container">
+        <h1>Edit User</h1>
+
+        <form action="/edit/<%= user.id %>" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" name="name" value="<%= user.name %>" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" value="<%= user.email %>" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Phone</label>
+                <input type="text" name="phone" value="<%= user.phone %>" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Current Image</label><br>
+                <% if (user.image) { %>
+                    <img src="/uploads/<%= user.image %>" width="100">
+                    <% } else { %>
+                        <p>No image uploaded</p>
+                        <% } %>
+            </div>
+
+            <div class="mb-3">
+                <label>Change Image</label>
+                <input type="file" name="image" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="/" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <%- include('layout/footer') %>
